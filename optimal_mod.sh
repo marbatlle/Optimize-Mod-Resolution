@@ -16,10 +16,31 @@ while getopts "l:u:s:" opt; do
 done
 
 # STEP 0
-echo '0/3 - Preparing environment' 
+echo '0/3 - Check inputs and prepare environment' 
+
+## Check if variables are integers
+re='^[0-9]+$'
+if ! [[ $lower_limit =~ $re ]] || ! [[ $upper_limit =~ $re ]] || ! [[ $steps =~ $re ]] ; then
+   echo "error: All variables should be an integer numbers" >&2; exit 1
+fi
+
+## Check if lower limit is larger than upper limit
+if [[ $lower_limit > $upper_limit ]] ; then
+   echo "error: The lower limit should be smaller than the upper limit" >&2; exit 1
+fi
+
+## Check if network layers are csv 
+if ! ls ./input/networks/*.csv > /dev/null
+then
+    echo "error: Network layers should follow the 'csv' format"
+    exit
+fi
+
+# set environment
 rm -r -f output ; mkdir output; rm -r -f src/networks
-mkdir -p src/networks; cp -a input/networks/. src/networks
-for file in src/networks/*; do sed -i 's/,/ /g' $file ; mv "$file" "${file/.*/.gr}"; done
+
+mkdir -p src/networks; cp -a input/networks/*.csv src/networks
+for file in src/networks/*.csv; do sed -i 's/,/ /g' $file ; mv "$file" "${file/.*/.gr}"; done
 
 # STEP 1
 echo '1/3 - Defining community structure for each modularity'
@@ -29,7 +50,16 @@ mkdir output/clusters
 networks=$(ls src/networks/*.gr)
 echo 'Processing base randomizations'
 networks=$(ls src/networks/*.gr)
-src/MolTi-DREAM-master/src/molti-console -r 5 -p 0 -o output/clusters/communities00 ${networks} >& /dev/null
+chmod 777 src/MolTi-DREAM-master/src/molti-console
+./src/MolTi-DREAM-master/src/molti-console -r 5 -p 0 -o output/clusters/communities00 ${networks} >& /dev/null
+
+if ! ls output/clusters/communities00_effectif.csv > /dev/null
+then
+    echo "error: Error when running MolTi-DREAM"
+    rm -r -f output; rm -r -f src/networks
+    exit
+fi
+
 for (( COUNTER=$lower_limit; COUNTER<=$upper_limit; COUNTER+=$steps )); do
     echo Processing ${COUNTER} randomizations
     src/MolTi-DREAM-master/src/molti-console -r 5 -p ${COUNTER} -o output/clusters/communities${COUNTER} ${networks} >& /dev/null
@@ -42,7 +72,8 @@ awk ' { if($2 > 6) print; } ' output/clusters/communities${COUNTER}_effectif.csv
 done
 
 # STEP 2
-echo '2/3 - Analyzing comms'
+echo ''
+echo '2/3 - Analyzing community structure'
 # Procesing number of randomizations
 echo '00' >> output/output_mod_parameter.txt
 for (( COUNTER=$lower_limit; COUNTER<=$upper_limit; COUNTER+=$steps )); do
@@ -61,7 +92,9 @@ for (( COUNTER=$lower_limit; COUNTER<=$upper_limit; COUNTER+=$steps )); do
     rm -f output/tmp_avg_com_size.txt
 
 done >> output/output_avg_com_size.txt
+
 # STEP 3
+echo ''
 echo '3/3 - Obtaining optimal randomizations value'
 python scripts/optimize_mod_parameter.py #>> output/optimal_mod_parameter.txt 2>/dev/null
 
