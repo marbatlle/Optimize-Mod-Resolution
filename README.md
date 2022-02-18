@@ -8,7 +8,7 @@ This script depends on depends on:
 * Numpy (tested on 1.19.5)
 
 ## Input
-Add one or more networks with a comma separated file, *.csv*, in the [Networks](src/networks/) folder, as seen in the [sample networks folder](https://github.com/marbatlle/Optimal-Rands-Communities/blob/bbc1168e96cfa3c1a0b740dbf828c6bd5c87d74c/src/sample_networks)
+Add one or more networks with a comma separated file, *.csv*, in the [Networks](src/networks/) folder, as seen in the [sample networks folder](src/sample_networks/)
 ## Run 
 
     - Run script: bash optimal_mod.sh 
