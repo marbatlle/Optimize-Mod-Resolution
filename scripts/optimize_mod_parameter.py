@@ -9,12 +9,11 @@ data = mod_param.merge(num_com, left_index=True, right_index=True)
 data = data.merge(avg_size, left_index=True, right_index=True)
 original_data = data
 
-data.to_csv('output/out.csv') 
+data.to_csv('output/molti-output-analysis.txt', index=None, sep=' ', mode='a') 
 data_subset = data[['num_communities','avg_community_size']]
 
 data_diff = data_subset.diff()
 data_diff['result'] = data_diff['avg_community_size']/data_diff['num_communities']
-
 
 data_result = data_diff[['result']]
 
@@ -30,9 +29,7 @@ data_plot['result'] = data_plot['result'].abs()
 
 data = data_plot.result.values.tolist()
 
-
 threshold = 0.01
-
 
 for i in range(len(data_plot)):
     if data_plot.result.iloc[i] < threshold:
@@ -49,9 +46,8 @@ except NameError:
 else:
     print('')
 
-
 optimal_communities = original_data.loc[original_data['mod_param'] == optimal_mod_param, 'num_communities'].values[0]
 optimal_comm_size = original_data.loc[original_data['mod_param'] == optimal_mod_param, 'avg_community_size'].values[0]
-print('optimal modularity parameter:',optimal_mod_param)
-print('   >> number of communities:',optimal_communities)
-print('   >> average community size:', optimal_comm_size)
+print('     Optimal modularity parameter:',optimal_mod_param)
+print('     - Number of communities:',optimal_communities)
+print('     - Average community size:', optimal_comm_size)
