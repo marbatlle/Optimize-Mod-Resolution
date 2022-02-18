@@ -1,4 +1,4 @@
-# DETERMINING AN OPTIMAL MODULARITY RESOLUTION PARAMETER FOR MOLTI
+# Determining an optimal modularity resolution parameter for MolTI-DREAM
 Discover the optimal modularity resolution parameter for your multilayer network when using [MolTI-DREAM](https://github.com/gilles-didier/MolTi-DREAM).
 
 ## Requirements
