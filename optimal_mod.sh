@@ -100,7 +100,7 @@ for (( COUNTER=$lower_limit; COUNTER<=$upper_limit; COUNTER+=$steps )); do
 done >> output/output_avg_com_size.txt
 
 # Determining optimal mod
-python scripts/optimize_mod_parameter.py > output/optimal_mod_parameter.txt 2>/dev/null
+python src/optimize_mod_parameter.py > output/optimal_mod_parameter.txt 2>/dev/null
 if ! ls output/optimal_mod_parameter.txt > /dev/null; then
     echo "     error: Could not determine the optimal modularity resolution parameter"
     rm -r -f src/networks
