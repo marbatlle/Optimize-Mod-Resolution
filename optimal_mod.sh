@@ -111,6 +111,7 @@ fi
 rm -f output/clusters/communities00*; rm -f output/clusters/*.tmp; rm -r -f src/networks; rm -f output/output_*.txt
     echo "     Results:"
 cat output/optimal_mod_parameter.txt
+touch output/.gitkeep
 echo " "
 
 
