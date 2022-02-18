@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import sys
 
 mod_param = pd.read_csv('output/output_mod_parameter.txt',header=None, names=["mod_param"])
 num_com = pd.read_csv('output/output_num_communities.txt',header=None, names=["num_communities"])
@@ -10,6 +11,14 @@ data = data.merge(avg_size, left_index=True, right_index=True)
 original_data = data
 
 data.to_csv('output/molti-output-analysis.txt', index=None, sep=' ', mode='a') 
+
+data = data[data.avg_community_size != 0]
+
+if data.empty:
+    print("     error: Could not define an optimal value for this community structure", file=sys.stderr)
+    exit()
+    
+
 data_subset = data[['num_communities','avg_community_size']]
 
 data_diff = data_subset.diff()
@@ -43,11 +52,12 @@ try:
 except NameError:
     min_res = data_plot['result'].min()
     optimal_mod_param = data_plot.loc[data_plot['result'] == min_res, 'mod_param'].iloc[0]
-else:
-    print('')
+
 
 optimal_communities = original_data.loc[original_data['mod_param'] == optimal_mod_param, 'num_communities'].values[0]
 optimal_comm_size = original_data.loc[original_data['mod_param'] == optimal_mod_param, 'avg_community_size'].values[0]
+print('     Results:')
 print('       Optimal modularity parameter:',optimal_mod_param)
 print('         - Number of communities:',optimal_communities)
 print('         - Average community size:', optimal_comm_size)
+print(' ')

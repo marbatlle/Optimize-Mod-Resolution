@@ -100,19 +100,18 @@ for (( COUNTER=$lower_limit; COUNTER<=$upper_limit; COUNTER+=$steps )); do
 done >> output/output_avg_com_size.txt
 
 # Determining optimal mod
-python src/optimize_mod_parameter.py > output/optimal_mod_parameter.txt 2>/dev/null
+python src/optimize_mod_parameter.py > output/optimal_mod_parameter.txt #2>/dev/null
 if ! ls output/optimal_mod_parameter.txt > /dev/null; then
-    echo "     error: Could not determine the optimal modularity resolution parameter"
+    echo "     error: Could not define an optimal value for this community structure"
     rm -r -f src/networks
+    rm -f output/output_*.txt
     exit
 fi
 
 # clean output directory
 rm -f output/clusters/communities00*; rm -f output/clusters/*.tmp; rm -r -f src/networks; rm -f output/output_*.txt
-    echo "     Results:"
 cat output/optimal_mod_parameter.txt
 touch output/.gitkeep
-echo " "
 
 
 
