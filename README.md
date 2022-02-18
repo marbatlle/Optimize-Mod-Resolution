@@ -1,4 +1,4 @@
-# Optimal Modularity Resolution Parameter for Community Definition
+# DETERMINING AN OPTIMAL MODULARITY RESOLUTION PARAMETER FOR MOLTI
 Discover the optimal modularity resolution parameter for your multilayer network when using [MolTI-DREAM](https://github.com/gilles-didier/MolTi-DREAM).
 ## Input
 Add one or more networks with a comma separated file, *.csv*, in the [Networks](src/networks/) folder, as seen in the [sample networks folder](https://github.com/marbatlle/Optimal-Rands-Communities/blob/bbc1168e96cfa3c1a0b740dbf828c6bd5c87d74c/src/sample_networks)
