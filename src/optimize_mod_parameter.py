@@ -17,6 +17,7 @@ export_data.to_csv('output/molti-output-analysis.txt', index=None, sep=' ', mode
 original_data = data
 data = data[data.avg_community_size != 0]
 if data.empty:
+    print("     error: Could not define an optimal value for this community structure"
     print("     error: Could not define an optimal value for this community structure", file=sys.stderr)
     exit()
     

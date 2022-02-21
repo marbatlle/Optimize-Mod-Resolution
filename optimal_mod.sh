@@ -56,7 +56,7 @@ networks=$(ls src/networks/*.gr)
 echo -n '     Process: '
 
 chmod 777 src/MolTi-DREAM-master/src/molti-console
-./src/MolTi-DREAM-master/src/molti-console -r 5 -p 0 -o output/clusters/communities00 ${networks} #>& /dev/null
+src/MolTi-DREAM-master/src/molti-console -r 5 -p 0 -o output/clusters/communities00 ${networks} >& /dev/null
 
 if ! ls output/clusters/communities00_effectif.csv > /dev/null; then
     echo "     error: Error when running MolTi-DREAM"
