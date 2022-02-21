@@ -55,8 +55,8 @@ networks=$(ls src/networks/*.gr)
 
 echo -n '     Process: '
 
-chmod 777 src/MolTi-DREAM-master/src/molti-console
-src/MolTi-DREAM-master/src/molti-console -r 5 -p 0 -o output/clusters/communities00 ${networks} >& /dev/null
+chmod 777 src/MolTi-DREAM/src/molti-console
+src/MolTi-DREAM/src/molti-console -r 5 -p 0 -o output/clusters/communities00 ${networks} >& /dev/null
 
 if ! ls output/clusters/communities00_effectif.csv > /dev/null; then
     echo "     error: Error when running MolTi-DREAM"
@@ -67,7 +67,7 @@ fi
 DOT=.
 for (( COUNTER=$lower_limit; COUNTER<=$upper_limit; COUNTER+=$steps )); do
     echo -n $DOT
-    src/MolTi-DREAM-master/src/molti-console -r 5 -p ${COUNTER} -o output/clusters/communities${COUNTER} ${networks} >& /dev/null
+    src/MolTi-DREAM/src/molti-console -r 5 -p ${COUNTER} -o output/clusters/communities${COUNTER} ${networks} >& /dev/null
 done
 
 # Filtering small communities
