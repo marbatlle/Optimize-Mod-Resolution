@@ -9,7 +9,7 @@ avg_size = pd.read_csv('output/output_avg_com_size.txt',header=None, names=["avg
 data = mod_param.merge(num_com, left_index=True, right_index=True)
 data = data.merge(avg_size, left_index=True, right_index=True)
 data['num_communities'] = data['num_communities'] - 1 
-data["avg_community_size"] = data.["avg_community_size"].round()
+data["avg_community_size"] = data["avg_community_size"].round()
 export_data = data
 export_data = export_data.iloc[1: , :]
 export_data.to_csv('output/molti-output-analysis.txt', index=None, sep=' ', mode='a') 
