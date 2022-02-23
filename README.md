@@ -12,7 +12,10 @@ Add one or more networks with a comma separated file, *.csv*, in the [Networks](
 ## Run 
 
     - Run script: bash optimal_mod.sh 
-    - Optional arguments: -u upper_limit -l lower_limit -s steps
+    - Optional arguments: 
+        -u upper_limit    maximum modularity value tested    
+        -l lower_limit    minimum modularity value tested
+        -s steps          number of steps to cover the range
 
 ## Output
 The result is presented at the terminal and at [Output](output/) directory, determining an optimal modularity resolution parameter as well as the corresponding number of communities and average community size, after filtering for disease modules (communities > 6 nodes). Additional results can be found at the output resulting folder.
