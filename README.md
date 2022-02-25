@@ -13,13 +13,13 @@ Add one or more networks with a comma separated file, *.csv*, in the [Networks](
 
     - Run script: bash optimal_mod.sh 
     - Optional arguments: 
-        -u upper_limit    maximum modularity value tested    
-        -l lower_limit    minimum modularity value tested
-        -s steps          number of steps to cover the range
-
+        -u upper_limit    set maximum modularity value tested                 [default is 0]  
+        -l lower_limit    set minimum modularity value tested                 [default is 50]
+        -s steps          set steps to cover the defined range                [default is 5]
+        -m min_nodes      set minimal num. of nodes to define a community     [default is 6]
+        
 ## Output
 The result is presented at the terminal and at [Output](output/) directory, determining an optimal modularity resolution parameter as well as the corresponding number of communities and average community size, after filtering for disease modules (communities > 6 nodes). Additional results can be found at the output resulting folder.
 
 ## References
 Didier G, Valdeolivas A, Baudot A. Identifying communities from multiplex biological networks by randomized optimization of modularity. F1000Res. 2018 Jul 10;7:1042. doi: 10.12688/f1000research.15486.2. PMID: 30210790; PMCID: PMC6107982.
-
