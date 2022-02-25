@@ -54,8 +54,9 @@ except NameError:
 
 optimal_communities = original_data.loc[original_data['mod_param'] == optimal_mod_param, 'num_communities'].values[0]
 optimal_comm_size = original_data.loc[original_data['mod_param'] == optimal_mod_param, 'avg_community_size'].values[0]
-print('     Results:')
-print('       Optimal modularity parameter:',optimal_mod_param)
-print('         - Number of communities:',optimal_communities)
-print('         - Average community size:', optimal_comm_size)
+print('')
+print('Results:')
+print('     Optimal modularity parameter:',optimal_mod_param)
+print('     - Number of communities:',optimal_communities)
+print('     - Average community size:', optimal_comm_size)
 print(' ')
