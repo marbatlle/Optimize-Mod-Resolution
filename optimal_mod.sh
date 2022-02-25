@@ -51,13 +51,13 @@ done
 
 # STEP 1
 printf '1/2 - Defining community structure for each modularity\n'
-printf "     Lower Resolution Limit: %s\n     Upper Resolution Limit: %s\n     Steps size: %s\n" $lower_limit $upper_limit $steps
+printf "      Lower Resolution Limit: %s\n      Upper Resolution Limit: %s\n      Steps size: %s\n" $lower_limit $upper_limit $steps
 
 mkdir output/clusters
 networks=$(ls src/networks/*.gr)
 networks=$(ls src/networks/*.gr)
 
-echo -n '     Process: '
+echo -n '      Process: '
 
 chmod 777 src/MolTi-DREAM/src/molti-console
 src/MolTi-DREAM/src/molti-console -r $randomizations -p 0 -o output/clusters/communities00 ${networks} >& /dev/null
