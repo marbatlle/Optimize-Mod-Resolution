@@ -9,13 +9,17 @@ printf '\n**********************************************************************
 lower_limit=0
 upper_limit=50
 steps=5
+randomizations=5
+min_nodes=6
 
 # Classifying input arguments
-while getopts "l:u:s:" opt; do
+while getopts "l:u:s:r:m:" opt; do
   case $opt in
     l) lower_limit=($OPTARG)                ;;
     u) upper_limit=($OPTARG)                ;;
-    s) steps=($OPTARG)   
+    s) steps=($OPTARG)                      ;;
+    r) randomizations=($OPTARG)             ;;
+    m) min_nodes=($OPTARG)
   esac
 done
 
@@ -24,7 +28,7 @@ printf '0/2 - Check inputs and prepare environment\n'
 
 ## Check if variables are integers
 re='^[0-9]+$'
-if ! [[ $lower_limit =~ $re ]] || ! [[ $upper_limit =~ $re ]] || ! [[ $steps =~ $re ]] ; then
+if ! [[ $lower_limit =~ $re ]] || ! [[ $upper_limit =~ $re ]] || ! [[ $steps =~ $re ]] || ! [[ $randomizations =~ $re ]] || ! [[ $randomizations =~ $re ]]; then
    echo "   error: All variables should be an integer numbers" >&2; exit 1
 fi
 
@@ -56,7 +60,7 @@ networks=$(ls src/networks/*.gr)
 echo -n '     Process: '
 
 chmod 777 src/MolTi-DREAM/src/molti-console
-src/MolTi-DREAM/src/molti-console -r 5 -p 0 -o output/clusters/communities00 ${networks} >& /dev/null
+src/MolTi-DREAM/src/molti-console -r $randomizations -p 0 -o output/clusters/communities00 ${networks} >& /dev/null
 
 if ! ls output/clusters/communities00_effectif.csv > /dev/null; then
     echo "     error: Error when running MolTi-DREAM"
@@ -67,17 +71,17 @@ fi
 DOT=.
 for (( COUNTER=$lower_limit; COUNTER<=$upper_limit; COUNTER+=$steps )); do
     echo -n $DOT
-    src/MolTi-DREAM/src/molti-console -r 5 -p ${COUNTER} -o output/clusters/communities${COUNTER} ${networks} >& /dev/null
+    src/MolTi-DREAM/src/molti-console -r $randomizations -p ${COUNTER} -o output/clusters/communities${COUNTER} ${networks} >& /dev/null
 done
 
 # Filtering small communities
-awk ' { if($2 > 6) print; } ' output/clusters/communities00_effectif.csv > output/clusters/communities00_effectif.tmp 
+awk -v var=$min_nodes ' { if($2 > var) print; } ' output/clusters/communities00_effectif.csv > output/clusters/communities00_effectif.tmp 
 for (( COUNTER=$lower_limit; COUNTER<=$upper_limit; COUNTER+=$steps )); do
-awk ' { if($2 > 6) print; } ' output/clusters/communities${COUNTER}_effectif.csv > output/clusters/communities${COUNTER}_effectif.tmp
+awk -v var=$min_nodes ' { if($2 > var) print; } ' output/clusters/communities${COUNTER}_effectif.csv > output/clusters/communities${COUNTER}_effectif.tmp
 done
 
 # STEP 2
-printf '\n2/2 - Obtaining optimal randomizations value\n'
+printf '\n2/2 - Obtaining optimal modularity value\n'
 
 # Procesing number of randomizations
 echo '00' >> output/output_mod_parameter.txt
@@ -112,6 +116,5 @@ fi
 rm -f output/clusters/communities00*; rm -f output/clusters/*.tmp; rm -r -f src/networks; rm -f output/output_*.txt
 cat output/optimal_mod_parameter.txt
 touch output/.gitkeep
-
 
 
