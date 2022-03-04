@@ -17,6 +17,7 @@ Add one or more networks with a comma separated file, *.csv*, in the [Networks](
         -l lower_limit    set minimum modularity value tested                 [default is 50]
         -s steps          set steps to cover the defined range                [default is 5]
         -m min_nodes      set minimal num. of nodes to define a community     [default is 6]
+        -r randomizations set number of Louvain randomizations [default 5]
         
 ## Output
 The result is presented at the terminal and at [Output](output/) directory, determining an optimal modularity resolution parameter as well as the corresponding number of communities and average community size, after filtering for disease modules (communities > 6 nodes). Additional results can be found at the output resulting folder.
