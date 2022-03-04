@@ -1,4 +1,5 @@
 input/networks
 !input/.gitkeep
-!output/.gitkeep
 output/
+!output/.gitkeep
+
