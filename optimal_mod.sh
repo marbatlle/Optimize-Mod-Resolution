@@ -60,13 +60,8 @@ networks=$(ls src/networks/*.gr)
 echo -n '      Process: '
 
 chmod 777 src/MolTi-DREAM/src/molti-console
-src/MolTi-DREAM/src/molti-console -r $randomizations -p 0 -o output/clusters/communities00 ${networks} >& /dev/null
+#src/MolTi-DREAM/src/molti-console -r $randomizations -p 0 -o output/clusters/communities00 ${networks} >& /dev/null
 
-if ! ls output/clusters/communities00_effectif.csv > /dev/null; then
-    echo "     error: Error when running MolTi-DREAM"
-    rm -r -f output; rm -r -f src/networks
-    exit
-fi
 
 DOT=.
 for (( COUNTER=$lower_limit; COUNTER<=$upper_limit; COUNTER+=$steps )); do
@@ -75,7 +70,6 @@ for (( COUNTER=$lower_limit; COUNTER<=$upper_limit; COUNTER+=$steps )); do
 done
 
 # Filtering small communities
-awk -v var=$min_nodes ' { if($2 > var) print; } ' output/clusters/communities00_effectif.csv > output/clusters/communities00_effectif.tmp 
 for (( COUNTER=$lower_limit; COUNTER<=$upper_limit; COUNTER+=$steps )); do
 awk -v var=$min_nodes ' { if($2 > var) print; } ' output/clusters/communities${COUNTER}_effectif.csv > output/clusters/communities${COUNTER}_effectif.tmp
 done
@@ -84,19 +78,17 @@ done
 printf '\n2/2 - Obtaining optimal modularity value\n'
 
 # Procesing number of randomizations
-echo '00' >> output/output_mod_parameter.txt
 for (( COUNTER=$lower_limit; COUNTER<=$upper_limit; COUNTER+=$steps )); do
     echo $COUNTER
 done >> output/output_mod_parameter.txt
 
 # Procesing number of communities
-cat output/clusters/communities00_effectif.tmp | cut -d":" -f2 | cut -f 1 | wc -l >> output/output_num_communities.txt
 for (( COUNTER=$lower_limit; COUNTER<=$upper_limit; COUNTER+=$steps )); do
     cat output/clusters/communities${COUNTER}_effectif.tmp | cut -d":" -f2 | cut -f 1 | wc -l
 done >> output/output_num_communities.txt
 
 # Procesing average size of communities
-cat output/clusters/communities00_effectif.tmp | cut -d":" -f2 | cut -f 2 >> output/tmp_avg_com_size.txt; awk '{ total += $1; count++ } END { print total/count }' output/tmp_avg_com_size.txt | tr , . >> output/output_avg_com_size.txt; rm -f output/tmp_avg_com_size.txt
+
 for (( COUNTER=$lower_limit; COUNTER<=$upper_limit; COUNTER+=$steps )); do
     cat output/clusters/communities${COUNTER}_effectif.tmp | cut -d":" -f2 | cut -f 2 >> output/tmp_avg_com_size.txt
     awk '{ total += $1; count++ } END { print total/count }' output/tmp_avg_com_size.txt | tr , .
@@ -104,7 +96,7 @@ for (( COUNTER=$lower_limit; COUNTER<=$upper_limit; COUNTER+=$steps )); do
 done >> output/output_avg_com_size.txt
 
 # Determining optimal mod
-python src/optimize_mod_parameter.py > output/optimal_mod_parameter.txt #2>/dev/null
+python src/optimize_mod_parameter.py > output/optimal_mod_parameter.txt 2>/dev/null
 if ! ls output/optimal_mod_parameter.txt > /dev/null; then
     echo "     error: Could not define an optimal value for this community structure"
     rm -r -f src/networks
