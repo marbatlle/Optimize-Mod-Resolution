@@ -24,17 +24,17 @@ The result is presented at the terminal and at [Output](output/) directory, dete
 
 ### Sample Output
 #### molti-output-analysis.txt 
-mod_param num_communities avg_community_size
-5 13 16.0
-10 13 14.0
-15 12 15.0
-20 14 12.0
-25 13 12.0
-30 13 12.0
-35 12 12.0
-40 11 11.0
-45 11 11.0
-50 11 10.0
+    mod_param num_communities avg_community_size
+    5 13 16.0
+    10 13 14.0
+    15 12 15.0
+    20 14 12.0
+    25 13 12.0
+    30 13 12.0
+    35 12 12.0
+    40 11 11.0
+    45 11 11.0
+    50 11 10.0
 #### optimal_mod_parameter.txt
 Results:
      Optimal modularity parameter: 25
