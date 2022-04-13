@@ -36,10 +36,10 @@ The result is presented at the terminal and at [Output](output/) directory, dete
     45 11 11.0
     50 11 10.0
 #### optimal_mod_parameter.txt
-Results:
-     Optimal modularity parameter: 25
-     - Number of communities: 13
-     - Average community size: 12.0
+    Results:
+        Optimal modularity parameter: 25
+        - Number of communities: 13
+        - Average community size: 12.0
 
 ## References
 Didier G, Valdeolivas A, Baudot A. Identifying communities from multiplex biological networks by randomized optimization of modularity. F1000Res. 2018 Jul 10;7:1042. doi: 10.12688/f1000research.15486.2. PMID: 30210790; PMCID: PMC6107982.
